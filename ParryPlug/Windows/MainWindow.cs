@@ -41,7 +41,7 @@ public class MainWindow : Window, IDisposable
 
     public override void Draw()
     {
-        ImGui.Text($"The random config bool is {plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
+        //ImGui.Text($"The random config bool is {plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
 
      
         if (ImGui.Button("Settings"))
@@ -51,6 +51,7 @@ public class MainWindow : Window, IDisposable
 
         ImGui.Spacing();
 
+        ImGui.Text("Debug");
         // Normally a BeginChild() would have to be followed by an unconditional EndChild(),
         // ImRaii takes care of this after the scope ends.
         // This works for all ImGui functions that require specific handling, examples are BeginTable() or Indent().
@@ -77,6 +78,7 @@ public class MainWindow : Window, IDisposable
 
                 // Example for other services that Dalamud provides.
                 // PlayerState provides a wrapper filled with information about the player character.
+
 
                 var playerState = Plugin.PlayerState;
                 if (!playerState.IsLoaded)
