@@ -8,7 +8,6 @@ using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using Lumina.Excel.Sheets;
 using Microsoft.VisualBasic;
-
 namespace ParryPlug.Windows;
 
 
@@ -18,6 +17,7 @@ public class MainWindow : Window, IDisposable
     private readonly string goatImagePath;
     private readonly Plugin plugin;
 
+    private readonly HealthWatcher healthWatcher = new();
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -34,6 +34,7 @@ public class MainWindow : Window, IDisposable
         this.goatImagePath = goatImagePath;
         this.plugin = plugin;
 
+
     }
 
     public void Dispose() { }
@@ -42,7 +43,8 @@ public class MainWindow : Window, IDisposable
     {
         ImGui.Text($"The random config bool is {plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
 
-        if (ImGui.Button("Show Settings"))
+     
+        if (ImGui.Button("Settings"))
         {
             plugin.ToggleConfigUi();
         }
@@ -57,7 +59,7 @@ public class MainWindow : Window, IDisposable
             // Check if this child is drawing
             if (child.Success)
             {
-                ImGui.Text("Have a goat:");
+                /*ImGui.Text("Have a goat:");
                 var goatImage = Plugin.TextureProvider.GetFromFile(goatImagePath).GetWrapOrDefault();
                 if (goatImage != null)
                 {
@@ -71,7 +73,7 @@ public class MainWindow : Window, IDisposable
                     ImGui.Text("Image not found.");
                 }
 
-                ImGuiHelpers.ScaledDummy(20.0f);
+                ImGuiHelpers.ScaledDummy(20.0f);*/
 
                 // Example for other services that Dalamud provides.
                 // PlayerState provides a wrapper filled with information about the player character.
@@ -125,8 +127,11 @@ public class MainWindow : Window, IDisposable
                     ImGui.Text("Invalid territory.");
                 }
 
-                ImGui.Text($"Current time: {DateTime.Now:T}");
+                ImGui.Text($"Local time: {DateTime.Now:T}");
                 
+
+                ImGui.Text($"Current HP: {healthWatcher.currentHealth}");
+
             }
         }
     }

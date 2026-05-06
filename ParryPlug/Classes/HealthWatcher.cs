@@ -1,33 +1,17 @@
 using System;
-using System.Numerics;
-using System.Runtime.Serialization;
-using Dalamud.Bindings.ImGui;
-using Dalamud.Interface.Textures;
-using Dalamud.Interface.Utility;
-using Dalamud.Interface.Utility.Raii;
-using Dalamud.Interface.Windowing;
-using Lumina.Excel.Sheets;
-using Microsoft.VisualBasic;
-using Dalamud.Game.Player;
-using FFXIVClientStructs.STD;
-using Dalamud.Utility;
-using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
-
 
 namespace ParryPlug;
 
-
 public class HealthWatcher : IDisposable
 {
-    private uint _lastHealth;
+    public uint currentHealth {get; private set;}
     public HealthWatcher()
     {
         Console.WriteLine("Constructor: HealthWatcher");
         Plugin.Framework.Update += this.OnFrameWorkTick;
     }
-
+    
     public void Dispose()
     {
         Plugin.Framework.Update -= this.OnFrameWorkTick;
@@ -38,11 +22,11 @@ public class HealthWatcher : IDisposable
         var player = Plugin.ObjectTable.LocalPlayer;
 
         if (player == null) return;
-        var currentHealth = player.CurrentHp;
+        var nextHealth = player.CurrentHp;
         
-        if (currentHealth == this._lastHealth) return;
+        if (nextHealth == this.currentHealth) return;
 
-        this._lastHealth = currentHealth;
-        Plugin.Log.Information("The player's health has updated to {health}.", currentHealth);
+        this.currentHealth = nextHealth;
+        Plugin.Log.Information("The player's health has updated to {health}.", nextHealth);
     }
 }
