@@ -1,11 +1,12 @@
 {
   "Author": "Caro Kann",
-  "Name": "ParryProgPlugin",
+  "Name": "ParryPlug",
   "Punchline": "A perfect plugin polished by people at parryprog",
   "Description": "/parry to open",
   "ApplicableVersion": "any",
   "Tags": [
     "sample",
     "plugin"
-  ]
+  ],
+  "RepoUrl": "https://github.com/CaroFiore/parryplug"
 }
