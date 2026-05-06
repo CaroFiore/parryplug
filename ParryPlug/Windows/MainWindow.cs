@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.Serialization;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using Lumina.Excel.Sheets;
+using Microsoft.VisualBasic;
 
 namespace ParryPlug.Windows;
+
+
 
 public class MainWindow : Window, IDisposable
 {
     private readonly string goatImagePath;
     private readonly Plugin plugin;
+
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -28,6 +33,7 @@ public class MainWindow : Window, IDisposable
 
         this.goatImagePath = goatImagePath;
         this.plugin = plugin;
+
     }
 
     public void Dispose() { }
@@ -101,6 +107,8 @@ public class MainWindow : Window, IDisposable
                 // More info about SeStrings: https://dalamud.dev/plugin-development/sestring/
                 ImGui.Text(playerState.ClassJob.Value.Abbreviation.ToString());
                 
+            
+
                 ImGui.SameLine();
                 ImGui.Text($" [Level {playerState.Level}]");
                 
@@ -116,6 +124,9 @@ public class MainWindow : Window, IDisposable
                 {
                     ImGui.Text("Invalid territory.");
                 }
+
+                ImGui.Text($"Current time: {DateTime.Now:T}");
+                
             }
         }
     }
