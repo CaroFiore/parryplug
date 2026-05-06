@@ -1,12 +1,11 @@
 {
-  "Author": "your name here",
-  "Name": "Sample Plugin",
-  "Punchline": "A short one-liner that shows up in /xlplugins.",
-  "Description": "A description that shows up in /xlplugins. List any major slash-command(s).",
+  "Author": "Caro Kann",
+  "Name": "ParryProgPlugin",
+  "Punchline": "A perfect plugin polished by people at parryprog",
+  "Description": "/parry to open",
   "ApplicableVersion": "any",
   "Tags": [
     "sample",
-    "plugin",
-    "goats"
+    "plugin"
   ]
 }
