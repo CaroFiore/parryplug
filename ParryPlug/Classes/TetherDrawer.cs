@@ -25,12 +25,16 @@ public class TetherDrawer : IDisposable
     private Vector3? posPlayerA;
     private Vector3? posPlayerB;
     
-    public TetherDrawer(uint activationTime, uint resolveTime, byte _playerA, byte _playerB)
+    public TetherDrawer(uint _activationTime, uint _resolveTime, byte _playerA, byte _playerB)
     {
         Plugin.Log.Information("Constructor: TetherDrawer");
 
         this.playerA = _playerA;
         this.playerB = _playerB;
+
+        this.activationTime = _activationTime;
+        this.resolveTime = _resolveTime;
+
 
         Plugin.Framework.Update += this.OnFrameWorkTick;
         Plugin.PluginInterface.UiBuilder.Draw += this.OnDraw;
@@ -65,7 +69,7 @@ public class TetherDrawer : IDisposable
 
     private void OnDraw()
     {
-        if (inCombatWatcher.fightElapsedTime > this.activationTime{
+        if (inCombatWatcher.fightElapsedTime > this.activationTime){
             this.DrawTether(posPlayerA,posPlayerB);  
         }
     }

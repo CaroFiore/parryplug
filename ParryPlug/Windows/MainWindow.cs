@@ -40,7 +40,6 @@ public class MainWindow : Window, IDisposable
         this.goatImagePath = goatImagePath;
         this.plugin = plugin;
 
-        tetherDrawer = new TetherDrawer(0,1);
 
     }
 
@@ -62,6 +61,11 @@ public class MainWindow : Window, IDisposable
         if (ImGui.Button("Settings"))
         {
             plugin.ToggleConfigUi();
+        }
+
+        if (ImGui.Button("StartFight"))
+        {
+            tetherDrawer = new TetherDrawer(6000, 10000,0,1);
         }
 
         ImGui.Spacing();
