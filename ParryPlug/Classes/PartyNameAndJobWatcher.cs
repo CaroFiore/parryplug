@@ -30,12 +30,17 @@ public class PartyNameAndJobWatcher : IDisposable
 
     private void OnFrameWorkTick(IFramework framework)
     {
+        for (int j = 0; j < partyNamesAndJobs.Length; j++)
+        {
+            partyNamesAndJobs[j] = null;
+        }
+
         var partyList = Plugin.PartyList;
         
         var i = 0;
         foreach (var player in partyList)
         {
-            partyNamesAndJobs[i] = $"{player.ClassJob} {player.Name}";
+            partyNamesAndJobs[i] = $"{player.Name}";
             i++;
         }
     }
