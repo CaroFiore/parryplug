@@ -20,6 +20,7 @@ public class MainWindow : Window, IDisposable
     private readonly HealthWatcher healthWatcher = new();
     private readonly PartyHealthWatcher partyHealthWatcher = new();
     private readonly PartyPositionWatcher partyPositionWatcher = new();
+    private readonly PartyNameAndJobWatcher partyNameAndJobWatcher = new();
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -140,9 +141,11 @@ public class MainWindow : Window, IDisposable
                 for (var i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++) {
                     var playerHealth = partyHealthWatcher.partyCurrentHealths[i];
                     var playerPos = partyPositionWatcher.partyCurrentPositions[i];
-                    ImGui.Text($"HP Member {i+1} : {playerHealth.ToString() ?? "No HP found"}");
+                    var playerInfo = partyNameAndJobWatcher.partyNamesAndJobs[i];
+                    ImGui.Text(playerInfo);
+                    ImGui.Text($"HP {i+1} : {playerHealth.ToString() ?? "No HP found"}");
                     ImGui.SameLine();
-                    ImGui.Text($"Pos Member {i+1} : {playerPos.ToString() ?? "No Pos found"}");
+                    ImGui.Text($"Pos {i+1} : {playerPos.ToString() ?? "No Pos found"}");
                 }
             }
         }
