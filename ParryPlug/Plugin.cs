@@ -6,6 +6,7 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
 using ParryPlug.Windows;
 using System.Xml.Schema;
+using Dalamud.Game.ClientState.Party;
 
 namespace ParryPlug;
 
@@ -20,6 +21,10 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
     [PluginService] internal static IFramework Framework { get; private set; } = null!;
     [PluginService] internal static IObjectTable ObjectTable {get ; private set; } = null!;
+
+    [PluginService] internal static IPartyMember PartyMember {get ; private set; } = null!;
+    [PluginService] internal static IPartyList PartyList {get ; private set; } = null!;
+
 
     private const string CommandName = "/parry";
 

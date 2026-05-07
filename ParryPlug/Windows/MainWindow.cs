@@ -19,6 +19,8 @@ public class MainWindow : Window, IDisposable
 
     private readonly HealthWatcher healthWatcher = new();
 
+    private readonly PartyHealthWatcher partyHealthWatcher = new();
+
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
     // but for ImGui the ID is "My Amazing Window##With a hidden ID"
@@ -132,8 +134,20 @@ public class MainWindow : Window, IDisposable
                 ImGui.Text($"Local time: {DateTime.Now:T}");
                 
 
-                ImGui.Text($"Current HP: {healthWatcher.currentHealth}");
+                ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
 
+                int i = 0;
+                foreach (var playerHealth in partyHealthWatcher.partyCurrentHealths)
+                {
+                    if (playerHealth != null)
+                    {
+                        ImGui.Text($"HP Party Member {i+1} : {playerHealth}");
+                    } else
+                    {
+                        ImGui.Text($"HP Party Member {i+1} : No Member Found");
+                    }
+                    i++;
+                }
             }
         }
     }
