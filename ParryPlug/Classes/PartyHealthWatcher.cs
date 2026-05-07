@@ -29,12 +29,16 @@ public class PartyHealthWatcher : IDisposable
 
     private void OnFrameWorkTick(IFramework framework)
     {
-        var partyList = Plugin.PartyList;
-        var i = 0;
+        for (int j = 0; j < partyCurrentHealths.Length; j++) 
+        partyCurrentHealths[j] = null;
 
+        var partyList = Plugin.PartyList;
+       
+        var i = 0;
         foreach (var player in partyList)
         {
             partyCurrentHealths[i] = player.CurrentHP;
+            i++;
         }
     }
 }

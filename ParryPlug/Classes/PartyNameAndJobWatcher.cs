@@ -31,11 +31,12 @@ public class PartyNameAndJobWatcher : IDisposable
     private void OnFrameWorkTick(IFramework framework)
     {
         var partyList = Plugin.PartyList;
+        
         var i = 0;
-
         foreach (var player in partyList)
         {
             partyNamesAndJobs[i] = $"{player.ClassJob} {player.Name}";
+            i++;
         }
     }
 }

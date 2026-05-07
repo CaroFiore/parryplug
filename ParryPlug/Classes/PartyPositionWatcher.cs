@@ -31,11 +31,12 @@ public class PartyPositionWatcher : IDisposable
     private void OnFrameWorkTick(IFramework framework)
     {
         var partyList = Plugin.PartyList;
+        
         var i = 0;
-
         foreach (var player in partyList)
         {
             partyCurrentPositions[i] = player.Position;
+            i++;
         }
     }
 }
