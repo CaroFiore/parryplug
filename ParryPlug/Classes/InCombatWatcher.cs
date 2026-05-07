@@ -41,6 +41,7 @@ public class InCombatWatcher : IDisposable
         if (inCombatApp == true && inCombatGame == false)
         {
             stopwatch.Reset();
+            inCombatApp = false;
         }
         
         if (inCombatApp == true) this.fightElapsedTime = stopwatch.ElapsedMilliseconds;

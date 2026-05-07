@@ -13,14 +13,19 @@ public class TetherDrawer : IDisposable
 {
     
     private readonly PartyPositionWatcher partyPositionWatcher = new();
+    private readonly InCombatWatcher inCombatWatcher = new();
    
     private byte playerA;
     private byte playerB;
 
+    private uint activationTime;
+    private uint resolveTime;
+
+
     private Vector3? posPlayerA;
     private Vector3? posPlayerB;
     
-    public TetherDrawer(byte _playerA, byte _playerB)
+    public TetherDrawer(uint activationTime, uint resolveTime, byte _playerA, byte _playerB)
     {
         Plugin.Log.Information("Constructor: TetherDrawer");
 
@@ -41,6 +46,8 @@ public class TetherDrawer : IDisposable
     {
         this.posPlayerA = partyPositionWatcher.partyCurrentPositions[this.playerA];
         this.posPlayerB = partyPositionWatcher.partyCurrentPositions[this.playerB];
+
+        if(inCombatWatcher.fightElapsedTime > this.resolveTime) this.Dispose();
     }
 
     private void DrawTether(Vector3? posA, Vector3? posB)
@@ -58,6 +65,8 @@ public class TetherDrawer : IDisposable
 
     private void OnDraw()
     {
-        this.DrawTether(posPlayerA,posPlayerB);
+        if (inCombatWatcher.fightElapsedTime > this.activationTime{
+            this.DrawTether(posPlayerA,posPlayerB);  
+        }
     }
 }
