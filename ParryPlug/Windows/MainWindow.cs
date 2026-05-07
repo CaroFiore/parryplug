@@ -21,6 +21,7 @@ public class MainWindow : Window, IDisposable
     private readonly PartyHealthWatcher partyHealthWatcher = new();
     private readonly PartyPositionWatcher partyPositionWatcher = new();
     private readonly PartyNameAndJobWatcher partyNameAndJobWatcher = new();
+    private TetherDrawer? tetherDrawer;
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -37,10 +38,18 @@ public class MainWindow : Window, IDisposable
         this.goatImagePath = goatImagePath;
         this.plugin = plugin;
 
+        tetherDrawer = new TetherDrawer(0,1);
 
     }
 
-    public void Dispose() { }
+    public void Dispose()
+    {
+        healthWatcher.Dispose();
+        partyHealthWatcher.Dispose();
+        partyPositionWatcher.Dispose();
+        partyNameAndJobWatcher.Dispose();
+        tetherDrawer?.Dispose();
+    }
 
     public override void Draw()
     {
