@@ -24,6 +24,7 @@ public sealed class Plugin : IDalamudPlugin
 
     [PluginService] internal static IPartyMember PartyMember {get ; private set; } = null!;
     [PluginService] internal static IPartyList PartyList {get ; private set; } = null!;
+    [PluginService] internal static IGameGui GameGui {get ; private set; } = null!;
 
 
     private const string CommandName = "/parry";
