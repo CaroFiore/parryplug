@@ -157,6 +157,7 @@ public class MainWindow : Window, IDisposable
                     var playerPos = partyPositionWatcher.partyCurrentPositions[i];
                     var playerInfo = partyNameAndJobWatcher.partyNamesAndJobs[i];
                     ImGui.Text(playerInfo);
+                    ImGui.SameLine();
                     ImGui.Text($"HP {i+1} : {playerHealth.ToString() ?? "No HP found"}");
                     ImGui.SameLine();
                     ImGui.Text($"Pos {i+1} : {playerPos.ToString() ?? "No Pos found"}");
