@@ -17,7 +17,7 @@ public class PartyHealthWatcher : IDisposable
         Console.WriteLine("Constructor: PartyHealthWatcher");
 
         // Fill party healths with Null, so later we can skip printing player healths if they dont exist.
-        for (int i = 0; i < partyCurrentHealths.Length; i++){partyCurrentHealths[i] = null;}
+        for (int i = 0; i < partyCurrentHealths.Length; i++) {partyCurrentHealths[i] = null;}
 
         
 

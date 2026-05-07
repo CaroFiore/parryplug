@@ -136,9 +136,10 @@ public class MainWindow : Window, IDisposable
 
                 ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
 
-                int i = 0;
-                foreach (var playerHealth in partyHealthWatcher.partyCurrentHealths)
+
+                for (int i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++)
                 {
+                    var playerHealth = partyHealthWatcher.partyCurrentHealths[i];
                     if (playerHealth != null)
                     {
                         ImGui.Text($"HP Party Member {i+1} : {playerHealth}");
