@@ -8,7 +8,7 @@ public class HealthWatcher : IDisposable
     public uint currentHealth {get; private set;}
     public HealthWatcher()
     {
-        Console.WriteLine("Constructor: HealthWatcher");
+        Plugin.Log.Information("Constructor: HealthWatcher");
         Plugin.Framework.Update += this.OnFrameWorkTick;
     }
     

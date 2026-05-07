@@ -14,7 +14,7 @@ public class InCombatWatcher : IDisposable
     Stopwatch stopwatch = new();
     public InCombatWatcher()
     {
-        Console.WriteLine("Constructor: InCombatWatcher");
+        Plugin.Log.Information("Constructor: InCombatWatcher");
 
         inCombat = Plugin.Condition[ConditionFlag.InCombat];
         this.fightElapsedTime = stopwatch.ElapsedMilliseconds;

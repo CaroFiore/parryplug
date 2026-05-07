@@ -14,7 +14,7 @@ public class PartyHealthWatcher : IDisposable
 
     public PartyHealthWatcher()
     {
-        Console.WriteLine("Constructor: PartyHealthWatcher");
+        Plugin.Log.Information("Constructor: PartyHealthWatcher");
 
         // Fill party healths with Null, so later we can skip printing player healths if they dont exist.
         for (int i = 0; i < partyCurrentHealths.Length; i++) {partyCurrentHealths[i] = null;}

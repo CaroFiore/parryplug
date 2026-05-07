@@ -15,7 +15,7 @@ public class PartyNameAndJobWatcher : IDisposable
 
     public PartyNameAndJobWatcher()
     {
-        Console.WriteLine("Constructor: PartyNameAndJobWatcher");
+        Plugin.Log.Information("Constructor: PartyNameAndJobWatcher");
 
         // Fill party healths with Null, so later we can skip printing player healths if they dont exist.
         for (int i = 0; i < partyNamesAndJobs.Length; i++) {partyNamesAndJobs[i] = null;}

@@ -22,7 +22,7 @@ public class TetherDrawer : IDisposable
     
     public TetherDrawer(byte _playerA, byte _playerB)
     {
-        Console.WriteLine("Constructor: TetherDrawer");
+        Plugin.Log.Information("Constructor: TetherDrawer");
 
         this.playerA = _playerA;
         this.playerB = _playerB;
