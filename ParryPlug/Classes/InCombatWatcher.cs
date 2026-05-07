@@ -10,7 +10,7 @@ namespace ParryPlug;
 public class InCombatWatcher : IDisposable
 {
     public bool inCombat;
-    public long fightElapsedTime {get; private set};
+    public long fightElapsedTime {get; private set;}
     Stopwatch stopwatch = new();
     public InCombatWatcher()
     {
