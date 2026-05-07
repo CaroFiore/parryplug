@@ -137,18 +137,14 @@ public class MainWindow : Window, IDisposable
                 ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
 
 
-                for (int i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++)
-                {
+                for (int i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++) {
                     var playerHealth = partyHealthWatcher.partyCurrentHealths[i];
-                    if (playerHealth != null)
-                    {
-                        ImGui.Text($"HP Party Member {i+1} : {playerHealth}");
-                    } else
-                    {
-                        ImGui.Text($"HP Party Member {i+1} : No Member Found");
-                    }
-                    i++;
+                    ImGui.Text($"HP Party Member {i+1} : {playerHealth.ToString() ?? "No Member Found"}");
                 }
+
+                /*foreach (var (i, playerHealth) in partyCurrentHealths.Select((value, index) => new { value, index })) {
+                    ImGui.Text($"HP Party Member {i+1} : {playerHealth ?? "No Member Found"}");
+                }*/
             }
         }
     }
