@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Arrays;
@@ -7,19 +8,17 @@ using Lumina.Excel.Sheets;
 
 namespace ParryPlug;
 
-public class PartyHealthWatcher : IDisposable
+public class PartyPositionWatcher : IDisposable
 {
 
-    public uint?[] partyCurrentHealths {get; private set;} = new uint?[8];
+    public Vector3?[] partyCurrentPositions {get; private set;} = new Vector3?[8];
 
-    public PartyHealthWatcher()
+    public PartyPositionWatcher()
     {
-        Console.WriteLine("Constructor: PartyHealthWatcher");
+        Console.WriteLine("Constructor: PartyPositionWatcher");
 
         // Fill party healths with Null, so later we can skip printing player healths if they dont exist.
-        for (int i = 0; i < partyCurrentHealths.Length; i++) {partyCurrentHealths[i] = null;}
-
-        
+        for (int i = 0; i < partyCurrentPositions.Length; i++) {partyCurrentPositions[i] = null;}
 
         Plugin.Framework.Update += this.OnFrameWorkTick;
     }
@@ -36,7 +35,7 @@ public class PartyHealthWatcher : IDisposable
 
         foreach (var player in partyList)
         {
-            partyCurrentHealths[i] = player.CurrentHP;
+            partyCurrentPositions[i] = player.Position;
         }
     }
 }

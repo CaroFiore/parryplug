@@ -18,8 +18,8 @@ public class MainWindow : Window, IDisposable
     private readonly Plugin plugin;
 
     private readonly HealthWatcher healthWatcher = new();
-
     private readonly PartyHealthWatcher partyHealthWatcher = new();
+    private readonly PartyPositionWatcher partyPositionWatcher = new();
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -137,14 +137,13 @@ public class MainWindow : Window, IDisposable
                 ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
 
 
-                for (int i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++) {
+                for (var i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++) {
                     var playerHealth = partyHealthWatcher.partyCurrentHealths[i];
-                    ImGui.Text($"HP Party Member {i+1} : {playerHealth.ToString() ?? "No Member Found"}");
+                    var playerPos = partyPositionWatcher.partyCurrentPositions[i];
+                    ImGui.Text($"HP Member {i+1} : {playerHealth.ToString() ?? "No HP found"}");
+                    ImGui.SameLine();
+                    ImGui.Text($"Pos Member {i+1} : {playerPos.ToString() ?? "No Pos found"}");
                 }
-
-                /*foreach (var (i, playerHealth) in partyCurrentHealths.Select((value, index) => new { value, index })) {
-                    ImGui.Text($"HP Party Member {i+1} : {playerHealth ?? "No Member Found"}");
-                }*/
             }
         }
     }
