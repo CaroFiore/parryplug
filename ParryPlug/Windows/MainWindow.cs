@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Textures;
@@ -21,6 +22,7 @@ public class MainWindow : Window, IDisposable
     private readonly PartyHealthWatcher partyHealthWatcher = new();
     private readonly PartyPositionWatcher partyPositionWatcher = new();
     private readonly PartyNameAndJobWatcher partyNameAndJobWatcher = new();
+    private readonly InCombatWatcher inCombatWatcher = new();
     private TetherDrawer? tetherDrawer;
 
     // We give this window a hidden ID using ##.
@@ -49,6 +51,7 @@ public class MainWindow : Window, IDisposable
         partyPositionWatcher.Dispose();
         partyNameAndJobWatcher.Dispose();
         tetherDrawer?.Dispose();
+        inCombatWatcher.Dispose();
     }
 
     public override void Draw()
@@ -142,6 +145,8 @@ public class MainWindow : Window, IDisposable
                 }
 
                 ImGui.Text($"Local time: {DateTime.Now:T}");
+
+                ImGui.Text($"InCombat: {inCombatWatcher.inCombat}");
                 
 
                 ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
