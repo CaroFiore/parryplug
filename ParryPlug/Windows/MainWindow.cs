@@ -146,10 +146,11 @@ public class MainWindow : Window, IDisposable
 
                 ImGui.Text($"Local time: {DateTime.Now:T}");
 
-                ImGui.Text($"InCombat: {inCombatWatcher.inCombat}");
+                ImGui.Text($"InCombat: {inCombatWatcher.inCombatApp}");
                 
 
                 ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
+                ImGui.Text($"Fight Time: {inCombatWatcher.fightElapsedTime}");
 
 
                 for (var i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++) {

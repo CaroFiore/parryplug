@@ -50,7 +50,7 @@ public class TetherDrawer : IDisposable
         var drawList = ImGui.GetBackgroundDrawList();
 
         if (Plugin.GameGui.WorldToScreen(posA.Value, out var screenA) |
-        Plugin.GameGui.WorldToScreen(posB.Value, out var screenB))
+            Plugin.GameGui.WorldToScreen(posB.Value, out var screenB))
         {
             drawList.AddLine(screenA, screenB, ImGui.ColorConvertFloat4ToU32(new Vector4(1,0,0,1)), 2f);
         }     

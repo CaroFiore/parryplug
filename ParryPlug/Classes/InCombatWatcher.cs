@@ -9,15 +9,18 @@ namespace ParryPlug;
 
 public class InCombatWatcher : IDisposable
 {
-    public bool inCombat {get; private set;}
+    public bool inCombatApp {get; private set;}
+    private bool inCombatGame;
     public long fightElapsedTime {get; private set;}
     Stopwatch stopwatch = new();
     public InCombatWatcher()
     {
         Plugin.Log.Information("Constructor: InCombatWatcher");
 
-        inCombat = Plugin.Condition[ConditionFlag.InCombat];
-        this.fightElapsedTime = stopwatch.ElapsedMilliseconds;
+        
+        inCombatApp = false;
+        inCombatGame = inCombatGame =  Plugin.Condition[ConditionFlag.InCombat];
+
 
         Plugin.Framework.Update += this.OnFrameWorkTick;
     }
@@ -29,12 +32,17 @@ public class InCombatWatcher : IDisposable
 
     private void OnFrameWorkTick(IFramework framework)
     {
-        var _previousCombatState = inCombat; //check what the previous combat state was
-        inCombat =  Plugin.Condition[ConditionFlag.InCombat]; //update the combat state
-        if (_previousCombatState != inCombat) //do actions if changed
+        inCombatGame =  Plugin.Condition[ConditionFlag.InCombat]; //update the combat state
+        if (inCombatApp == false && inCombatGame == true)
         {
-            if (inCombat == true) this.stopwatch.Restart();
-            else this.stopwatch.Stop();
+            stopwatch.Start();
+            inCombatApp = true;
         }
-    }
+        if (inCombatApp == true && inCombatGame == false)
+        {
+            stopwatch.Reset();
+        }
+        
+        if (inCombatApp == true) this.fightElapsedTime = stopwatch.ElapsedMilliseconds;
+    }    
 }
