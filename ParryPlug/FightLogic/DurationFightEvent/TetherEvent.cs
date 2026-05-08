@@ -30,6 +30,7 @@ public class TetherEvent : DurationFightEvent
         this.eligiblePlayers = eligiblePlayers;
 
         //Step 1: check if the input is valid. Eligibleplayers / 2*amount can never be smaller than 1 (and amount can not be 0 thats stupid).
+        // If it IS smaller, that means theres not enough eligible players for the amount of tethers. We dont like that.
         if (this.amount == 0) throw new ArgumentOutOfRangeException(nameof(amount), "Tether Event: Amount must be bigger than 0");
         if (this.eligiblePlayers.Count / this.amount < 1) 
             throw new ArgumentNullException(nameof(this.eligiblePlayers), 
