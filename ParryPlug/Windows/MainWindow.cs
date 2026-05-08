@@ -22,7 +22,7 @@ public class MainWindow : Window, IDisposable
     private readonly PartyHealthWatcher partyHealthWatcher = new();
     private readonly PartyPositionWatcher partyPositionWatcher = new();
     private readonly PartyNameAndJobWatcher partyNameAndJobWatcher = new();
-    private readonly InCombatWatcher inCombatWatcher = new();
+    public readonly InCombatWatcher inCombatWatcher = new();
     private TetherDrawer? tetherDrawer;
 
     // We give this window a hidden ID using ##.

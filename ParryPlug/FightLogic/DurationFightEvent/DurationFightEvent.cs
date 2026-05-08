@@ -20,11 +20,14 @@ public abstract class DurationFightEvent : IDisposable
     public uint ResolveTime {get; }
     protected uint Seed {get; }
 
+    public bool isActive;
+
     public DurationFightEvent(uint _activationTime, uint _resolveTime, uint _seed)
     {
         ActivationTime = _activationTime;
         ResolveTime = _resolveTime;
         Seed = _seed;
+        this.isActive = false;
     }
 
     public abstract void OnFrameWorkTick(IFramework framework);
