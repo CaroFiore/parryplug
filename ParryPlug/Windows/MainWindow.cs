@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -23,7 +24,9 @@ public class MainWindow : Window, IDisposable
     private readonly PartyPositionWatcher partyPositionWatcher = new();
     private readonly PartyNameAndJobWatcher partyNameAndJobWatcher = new();
     public readonly InCombatWatcher inCombatWatcher = new();
-    private TetherDrawer? tetherDrawer;
+    public EventScheduler? eventScheduler;
+
+    private uint seed;
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -49,7 +52,7 @@ public class MainWindow : Window, IDisposable
         partyHealthWatcher.Dispose();
         partyPositionWatcher.Dispose();
         partyNameAndJobWatcher.Dispose();
-        tetherDrawer?.Dispose();
+        eventScheduler?.Dispose();
         inCombatWatcher.Dispose();
     }
 
@@ -63,9 +66,11 @@ public class MainWindow : Window, IDisposable
             plugin.ToggleConfigUi();
         }
 
-        if (ImGui.Button("StartFight"))
+        if (ImGui.Button("ResetFight"))
         {
-            tetherDrawer = new TetherDrawer(6000, 10000,0,1);
+            eventScheduler?.Dispose();
+            seed++;
+            eventScheduler = new EventScheduler(seed);
         }
 
         ImGui.Spacing();

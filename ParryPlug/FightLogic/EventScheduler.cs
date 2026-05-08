@@ -9,18 +9,21 @@ public class EventScheduler : IDisposable
     uint seed;
 
     //TODO: quick eligible players list to test with here, needs to just work normally.
-    List<uint> tempEligiblePlayers = new List<uint>{0,1};
+    List<uint> tempEligiblePlayers = new List<uint>{1,2,3};
     List<DurationFightEvent> durationFightEvents; 
     InCombatWatcher inCombatWatcher;
+    public RandomNumberGenerator mainRNG;
+
     public EventScheduler(uint _seed)
     {
         seed = _seed;
         inCombatWatcher = new();
+        mainRNG = new(seed);
         // Add events here. Im not sure about the syntax of this actually, this is a simplifcation suggested by vscode.
         durationFightEvents =
         [
-            new TetherEvent(6000,10000,seed,1,tempEligiblePlayers),
-            new TetherEvent(12000,14000,seed,1,tempEligiblePlayers),
+            new TetherEvent(1000,2000,1,tempEligiblePlayers, mainRNG),
+            new TetherEvent(3000,4000,1,tempEligiblePlayers, mainRNG),
         ];
 
         Plugin.Framework.Update += this.OnFrameWorkTick;
@@ -29,13 +32,16 @@ public class EventScheduler : IDisposable
     public void OnFrameWorkTick(IFramework framework)
     {
         foreach(DurationFightEvent e in durationFightEvents){
-            if (inCombatWatcher.fightElapsedTime > e.ActivationTime && !e.isActive)
+            //Plugin.Log.Information($"Is {inCombatWatcher.fightElapsedTime} bigger than {e.ActivationTime} and is e.isActive? {e.isActive}");
+            if (inCombatWatcher.fightElapsedTime > e.ActivationTime && !e.isActive && !e.isDisposed)
             {
                 e.isActive = true;
+                Plugin.Log.Information($"New event activated: {e}");
                 Plugin.Framework.Update += e.OnFrameWorkTick;
+                Plugin.PluginInterface.UiBuilder.Draw += e.OnDraw;
             }
 
-            if (inCombatWatcher.fightElapsedTime > e.ResolveTime && e.isActive)
+            if (inCombatWatcher.fightElapsedTime > e.ResolveTime && e.isActive && !e.isDisposed)
             {
                 e.isActive = false;
                 e.Dispose();
@@ -52,6 +58,7 @@ public class EventScheduler : IDisposable
             if (e.isActive) e.Dispose();
         }
         Plugin.Framework.Update -= this.OnFrameWorkTick;
+        
     }
 
 }

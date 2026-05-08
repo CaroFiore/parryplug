@@ -21,20 +21,25 @@ public abstract class DurationFightEvent : IDisposable
     protected uint Seed {get; }
 
     public bool isActive;
+    public bool isDisposed;
 
-    public DurationFightEvent(uint _activationTime, uint _resolveTime, uint _seed)
+    public DurationFightEvent(uint _activationTime, uint _resolveTime)
     {
         ActivationTime = _activationTime;
         ResolveTime = _resolveTime;
-        Seed = _seed;
         this.isActive = false;
+        this.isDisposed = false;
     }
 
+    public abstract void OnDraw();
     public abstract void OnFrameWorkTick(IFramework framework);
 
-    public void Dispose()
+    public virtual void Dispose()
     {
+        Plugin.Log.Information("Some event has been disposed..");
+        Plugin.PluginInterface.UiBuilder.Draw -= this.OnDraw;
         Plugin.Framework.Update -= this.OnFrameWorkTick;
+        this.isDisposed = true;
     }
 }
 

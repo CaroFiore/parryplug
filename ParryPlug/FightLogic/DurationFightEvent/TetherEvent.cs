@@ -8,6 +8,8 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Dalamud.Game.Player;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using Lumina.Excel.Sheets;
+using ParryPlug.Windows;
 namespace ParryPlug;
 
 
@@ -18,39 +20,48 @@ public class TetherEvent : DurationFightEvent
 
     PartyPositionWatcher partyPositionWatcher = new();
     List<uint> chosenPairs = new();
-    RandomNumberGenerator rng = new();
 
     Vector3? posA;
     Vector3? posB;
 
-    public TetherEvent(uint activationTime, uint resolveTime, uint seed, uint amount, List<uint> eligiblePlayers) 
-    : base(activationTime,resolveTime,seed)
+    RandomNumberGenerator mainRNG;
+
+    public TetherEvent(uint activationTime, uint resolveTime, uint amount, List<uint> _eligiblePlayers, RandomNumberGenerator _mainRNG) 
+    : base(activationTime,resolveTime)
     {
+        mainRNG = _mainRNG;
         this.amount = amount;
-        this.eligiblePlayers = eligiblePlayers;
+        this.eligiblePlayers = new List<uint>(_eligiblePlayers);
+        
+        Plugin.Log.Information($"in tetherevent constructor: eligiblePLayers.Count: {eligiblePlayers.Count}");
+
 
         //Step 1: check if the input is valid. Eligibleplayers / 2*amount can never be smaller than 1 (and amount can not be 0 thats stupid).
         // If it IS smaller, that means theres not enough eligible players for the amount of tethers. We dont like that.
+        Plugin.Log.Information($"amount: {this.amount} and eligibleplayers: {eligiblePlayers.Count}");
+        
         if (this.amount == 0) throw new ArgumentOutOfRangeException(nameof(amount), "Tether Event: Amount must be bigger than 0");
         if (this.eligiblePlayers.Count / this.amount < 1) 
             throw new ArgumentNullException(nameof(this.eligiblePlayers), 
             message: "Tether Event: The amount of eligible players is not enough for the amount of tethers being drawn..");
+        if (this.eligiblePlayers.Any(p => p > 7))
+            throw new ArgumentOutOfRangeException(nameof(eligiblePlayers), 
+            message: "Tether Event: Eligible player indices must be valid party slots (0-7)");
 
         //Step 2: create random player pairs
         //Pick a random index from the eligiblePlayers list and move it from eligiblePlayers to the chosenPairs list.
-        rng = new(seed, eligiblePlayers.Count); // create a number generator with the seed 
         int nextNumber;
         while (amount != 0)
         {   
             for (int i = 0; i < 2; i++) // put 2 people into the list, then reduce amount by 1
             {
-                nextNumber = rng.Next();
+                Plugin.Log.Information($"eligiblePLayers.Count: {eligiblePlayers.Count}");
+                nextNumber = mainRNG.Next((uint)eligiblePlayers.Count);
                 chosenPairs.Add(eligiblePlayers[nextNumber]);
-                eligiblePlayers.Remove(eligiblePlayers[nextNumber]);
-                rng.UpdateMax(eligiblePlayers.Count);    
+                eligiblePlayers.RemoveAt(nextNumber);
             }
+            amount--;
         }
-        amount--;
     }
 
         // Step 3: we should now have a list of pairs. So index 0 and 1 are together.. 2 and 3 etc.
@@ -62,11 +73,17 @@ public class TetherEvent : DurationFightEvent
     public override void OnFrameWorkTick(IFramework framework)
     {
         for (int i = 0; i < chosenPairs.Count; i+=2){
-            this.posA = partyPositionWatcher.partyCurrentPositions[chosenPairs[i]];
+            this.posA = partyPositionWatcher.partyCurrentPositions[chosenPairs[i+0]];
             this.posB = partyPositionWatcher.partyCurrentPositions[chosenPairs[i+1]];
         }
 
-        DrawTether(posA, posB);
+        Plugin.Log.Information("I am being ticked LOL");
+    }
+
+    public override void OnDraw()
+    {
+        //Plugin.Log.Information($"Attempting to draw {posA} and {posB}");
+        this.DrawTether(this.posA, this.posB);
     }
 
     private void DrawTether(Vector3? posA, Vector3? posB)
