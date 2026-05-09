@@ -69,6 +69,8 @@ public class TetherDrawer : IDisposable
 
     private void OnDraw()
     {
+        
+
         if (inCombatWatcher.fightElapsedTime > this.activationTime){
             this.DrawTether(posPlayerA,posPlayerB);  
         }

@@ -9,7 +9,7 @@ public class EventScheduler : IDisposable
     uint seed;
 
     //TODO: quick eligible players list to test with here, needs to just work normally.
-    List<uint> tempEligiblePlayers = new List<uint>{1,2,3};
+    List<uint> tempEligiblePlayers = new List<uint>{0,1,2,3};
     List<DurationFightEvent> durationFightEvents; 
     InCombatWatcher inCombatWatcher;
     public RandomNumberGenerator mainRNG;
@@ -22,8 +22,8 @@ public class EventScheduler : IDisposable
         // Add events here. Im not sure about the syntax of this actually, this is a simplifcation suggested by vscode.
         durationFightEvents =
         [
-            new TetherEvent(1000,2000,1,tempEligiblePlayers, mainRNG),
-            new TetherEvent(3000,4000,1,tempEligiblePlayers, mainRNG),
+            new TetherEvent(1000,4000,2,tempEligiblePlayers, mainRNG),
+            new TetherEvent(5000,8000,2,tempEligiblePlayers, mainRNG),
         ];
 
         Plugin.Framework.Update += this.OnFrameWorkTick;
