@@ -69,9 +69,6 @@ public class TetherEvent : DurationFightEvent
         // Step 3: we should now have a list of pairs. So index 0 and 1 are together.. 2 and 3 etc.
         // On each framework tick, lets draw every tether.
 
-
-    
-
     public override void OnFrameWorkTick(IFramework framework)
     {
     }

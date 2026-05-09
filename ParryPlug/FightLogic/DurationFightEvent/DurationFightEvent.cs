@@ -42,4 +42,3 @@ public abstract class DurationFightEvent : IDisposable
         this.isDisposed = true;
     }
 }
-

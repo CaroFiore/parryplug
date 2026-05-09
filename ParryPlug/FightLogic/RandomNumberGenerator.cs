@@ -22,7 +22,6 @@ public class RandomNumberGenerator
         uint t = (state ^ (state >> 15)) * (1 | state);
         t = (t + (t ^ (t >> 7)) * (61 | t)) ^ t;
         t = t ^ (t >> 14);
-        Plugin.Log.Information($"About to divide {t} by {max}");
         return (int)(t % max); // 0–7
     }
 }

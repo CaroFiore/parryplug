@@ -42,8 +42,6 @@ public class MainWindow : Window, IDisposable
 
         this.goatImagePath = goatImagePath;
         this.plugin = plugin;
-
-
     }
 
     public void Dispose()
