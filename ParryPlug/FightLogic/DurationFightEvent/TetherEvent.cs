@@ -83,6 +83,8 @@ public class TetherEvent : DurationFightEvent
             this.posB = partyPositionWatcher.partyCurrentPositions[chosenPairs[i+1]];
            
 
+            // Moving the tether up a little bit so its not hanging on the floor.
+            // Also animating the thickness of the tether with a sine wave.
             Vector3 adjustedPosA;
             Vector3 adjustedPosB;
             if (this.posA != null && this.posB != null)
