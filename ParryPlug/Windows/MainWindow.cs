@@ -22,8 +22,8 @@ public class MainWindow : Window, IDisposable
     private readonly HealthWatcher healthWatcher = new();
     public readonly InCombatWatcher inCombatWatcher = new();
     public EventScheduler? eventScheduler;
-
-    private uint seed;
+    public readonly PartyInfo partyInfo;
+    public readonly PlayerPicker playerPicker;
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
@@ -31,6 +31,10 @@ public class MainWindow : Window, IDisposable
     public MainWindow(Plugin plugin, string goatImagePath)
         : base("ParryPlug##With a hidden ID", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
+        partyInfo = new PartyInfo();
+        playerPicker = new PlayerPicker(partyInfo);
+
+
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(375, 330),
@@ -61,6 +65,7 @@ public class MainWindow : Window, IDisposable
         if (ImGui.Button("BuildFight"))
         {
             Plugin.Log.Information("BuildFight Pressed");
+            partyInfo.Build();
         }
 
         ImGui.Spacing();
@@ -131,8 +136,11 @@ public class MainWindow : Window, IDisposable
                 ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
                 ImGui.Text($"Fight Time: {inCombatWatcher.fightElapsedTime}");
 
+                foreach(Player player in partyInfo.Get())
+                {
+                    ImGui.Text(player.PrintPlayerInfo());
+                }
 
-                
             }
         }
     }

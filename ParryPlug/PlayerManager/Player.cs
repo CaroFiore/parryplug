@@ -19,10 +19,10 @@ public class Player
         this.Name = member.Name.ToString();
         this.Job = classJob.Abbreviation.ToString() ?? "Error";
         this.Role = classJob.Role switch
-        {
+        { //Optional: If we ever want to split up melee/ranged mechanics we can specify their roles here.
             1 => "Tank",
-            2 => "Melee DPS",
-            3 => "Ranged DPS",
+            2 => "DPS", //Melee
+            3 => "DPS", //Ranged
             4 => "Healer",
             _ => "Unknown"
         };

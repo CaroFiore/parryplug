@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using Dalamud.Game.Player;
+using Dalamud.Utility.Signatures;
 
 namespace ParryPlug;
 
 public class PlayerPicker{
-    List<Player> partyInfo;
+    PartyInfo partyInfo;
     public delegate List<Player> PickPlayers();
     private Dictionary<string, PickPlayers> pickStrategies;
 
-    public PlayerPicker(List<Player> _partyInfo)
+    public PlayerPicker(PartyInfo _partyInfo)
     {
         this.partyInfo = _partyInfo;
 
@@ -39,7 +41,7 @@ public class PlayerPicker{
     }
     
     //Role Groups
-    List<Player> AllSupports(){return new List<Player>();}
+    List<Player> AllSupports(){return partyInfo.Get();}
     List<Player> AllDPS(){return new List<Player>();}
     List<Player> AllTanks(){return new List<Player>();}
     List<Player> AllHealers(){return new List<Player>();}
