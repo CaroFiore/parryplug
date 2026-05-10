@@ -66,21 +66,21 @@ public class PlayerPicker{
 
     //Role Groups
     List<Player> AllSupports(){
-        eligiblePlayers = partyInfo.Get().Where(p => p.Role == "Healer" || p.Role == "Tank").ToList();
+        eligiblePlayers = partyInfo.Get().Where(p => p.Role == Player.Roles.Healer || p.Role == Player.Roles.Tank).ToList();
         return ShufflePlayers(eligiblePlayers);
     }
     List<Player> AllDPS(){ 
-        eligiblePlayers = partyInfo.Get().Where(p => p.Role == "DPS").ToList();
+        eligiblePlayers = partyInfo.Get().Where(p => p.Role == Player.Roles.DPS).ToList();
         return ShufflePlayers(eligiblePlayers);
     }
     List<Player> AllTanks()
     {
-        eligiblePlayers = partyInfo.Get().Where(p => p.Role == "Tank").ToList();
+        eligiblePlayers = partyInfo.Get().Where(p => p.Role == Player.Roles.Tank).ToList();
         return ShufflePlayers(eligiblePlayers);
     }
     List<Player> AllHealers()
     {
-        eligiblePlayers = partyInfo.Get().Where(p => p.Role == "Healer").ToList();
+        eligiblePlayers = partyInfo.Get().Where(p => p.Role == Player.Roles.Healer).ToList();
         return ShufflePlayers(eligiblePlayers);
     }
     //Pairs
