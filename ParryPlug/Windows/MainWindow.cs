@@ -23,6 +23,7 @@ public class MainWindow : Window, IDisposable
     public readonly InCombatWatcher inCombatWatcher = new();
     public EventScheduler? eventScheduler;
     public readonly PartyInfo partyInfo;
+    public readonly RandomNumberGenerator rng;
     public readonly PlayerPicker playerPicker;
 
     // We give this window a hidden ID using ##.
@@ -32,7 +33,8 @@ public class MainWindow : Window, IDisposable
         : base("ParryPlug##With a hidden ID", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         partyInfo = new PartyInfo();
-        playerPicker = new PlayerPicker(partyInfo);
+        rng = new RandomNumberGenerator(0);
+        playerPicker = new PlayerPicker(partyInfo, rng);
 
 
         SizeConstraints = new WindowSizeConstraints
@@ -141,6 +143,13 @@ public class MainWindow : Window, IDisposable
                     ImGui.Text(player.PrintPlayerInfo());
                 }
 
+                ImGui.Text("Tanks: ");
+                ImGui.SameLine();
+                foreach(var player in playerPicker.Pick("AllTanks")){
+                    if(player == null) return;
+                    ImGui.Text(player.Name);
+                    ImGui.SameLine();
+                }
             }
         }
     }
