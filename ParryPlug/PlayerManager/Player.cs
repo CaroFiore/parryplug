@@ -40,4 +40,9 @@ public class Player
         this.CurrentHP = member.CurrentHP;
         this.MaxHP = member.MaxHP;
     }
+
+    public string PrintPlayerInfo()
+    {
+        return $"{EntityID} {Name} {Role} {Job} {CurrentHP}/{MaxHP} {Position}";
+    }
 }

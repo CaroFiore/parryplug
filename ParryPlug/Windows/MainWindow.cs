@@ -20,9 +20,6 @@ public class MainWindow : Window, IDisposable
     private readonly Plugin plugin;
 
     private readonly HealthWatcher healthWatcher = new();
-    private readonly PartyHealthWatcher partyHealthWatcher = new();
-    private readonly PartyPositionWatcher partyPositionWatcher = new();
-    private readonly PartyNameAndJobWatcher partyNameAndJobWatcher = new();
     public readonly InCombatWatcher inCombatWatcher = new();
     public EventScheduler? eventScheduler;
 
@@ -47,9 +44,6 @@ public class MainWindow : Window, IDisposable
     public void Dispose()
     {
         healthWatcher.Dispose();
-        partyHealthWatcher.Dispose();
-        partyPositionWatcher.Dispose();
-        partyNameAndJobWatcher.Dispose();
         eventScheduler?.Dispose();
         inCombatWatcher.Dispose();
     }
@@ -64,11 +58,9 @@ public class MainWindow : Window, IDisposable
             plugin.ToggleConfigUi();
         }
 
-        if (ImGui.Button("ResetFight"))
+        if (ImGui.Button("BuildFight"))
         {
-            eventScheduler?.Dispose();
-            seed++;
-            eventScheduler = new EventScheduler(seed);
+            Plugin.Log.Information("BuildFight Pressed");
         }
 
         ImGui.Spacing();
@@ -82,26 +74,6 @@ public class MainWindow : Window, IDisposable
             // Check if this child is drawing
             if (child.Success)
             {
-                /*ImGui.Text("Have a goat:");
-                var goatImage = Plugin.TextureProvider.GetFromFile(goatImagePath).GetWrapOrDefault();
-                if (goatImage != null)
-                {
-                    using (ImRaii.PushIndent(55f))
-                    {
-                        ImGui.Image(goatImage.Handle, goatImage.Size);
-                    }
-                }
-                else
-                {
-                    ImGui.Text("Image not found.");
-                }
-
-                ImGuiHelpers.ScaledDummy(20.0f);*/
-
-                // Example for other services that Dalamud provides.
-                // PlayerState provides a wrapper filled with information about the player character.
-
-
                 var playerState = Plugin.PlayerState;
                 if (!playerState.IsLoaded)
                 {
@@ -160,16 +132,7 @@ public class MainWindow : Window, IDisposable
                 ImGui.Text($"Fight Time: {inCombatWatcher.fightElapsedTime}");
 
 
-                for (var i = 0; i < partyHealthWatcher.partyCurrentHealths.Length; i++) {
-                    var playerHealth = partyHealthWatcher.partyCurrentHealths[i];
-                    var playerPos = partyPositionWatcher.partyCurrentPositions[i];
-                    var playerInfo = partyNameAndJobWatcher.partyNamesAndJobs[i];
-                    ImGui.Text(playerInfo);
-                    ImGui.SameLine();
-                    ImGui.Text($"HP {i+1} : {playerHealth.ToString() ?? "No HP found"}");
-                    ImGui.SameLine();
-                    ImGui.Text($"Pos {i+1} : {playerPos.ToString() ?? "No Pos found"}");
-                }
+                
             }
         }
     }

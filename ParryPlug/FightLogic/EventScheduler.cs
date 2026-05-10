@@ -22,8 +22,7 @@ public class EventScheduler : IDisposable
         // Add events here. Im not sure about the syntax of this actually, this is a simplifcation suggested by vscode.
         durationFightEvents =
         [
-            new TetherEvent(1000,4000,2,tempEligiblePlayers, mainRNG),
-            new TetherEvent(5000,8000,2,tempEligiblePlayers, mainRNG),
+
         ];
 
         Plugin.Framework.Update += this.OnFrameWorkTick;
