@@ -18,24 +18,17 @@ public class MainWindow : Window, IDisposable
 {
     private readonly string goatImagePath;
     private readonly Plugin plugin;
+    private readonly Nexus nexus;
 
-    private readonly HealthWatcher healthWatcher = new();
-    public readonly InCombatWatcher inCombatWatcher = new();
-    public EventScheduler? eventScheduler;
-    public readonly PartyInfo partyInfo;
-    public readonly RandomNumberGenerator rng;
-    public readonly PlayerPicker playerPicker;
 
     // We give this window a hidden ID using ##.
     // The user will see "My Amazing Window" as window title,
     // but for ImGui the ID is "My Amazing Window##With a hidden ID"
-    public MainWindow(Plugin plugin, string goatImagePath)
+    public MainWindow(Plugin plugin, string goatImagePath, Nexus _nexus)
         : base("ParryPlug##With a hidden ID", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
-        partyInfo = new PartyInfo();
-        rng = new RandomNumberGenerator(0);
-        playerPicker = new PlayerPicker(partyInfo, rng);
 
+        nexus = _nexus;
 
         SizeConstraints = new WindowSizeConstraints
         {
@@ -49,9 +42,7 @@ public class MainWindow : Window, IDisposable
 
     public void Dispose()
     {
-        healthWatcher.Dispose();
-        eventScheduler?.Dispose();
-        inCombatWatcher.Dispose();
+        nexus.Dispose();
     }
 
     public override void Draw()
@@ -67,7 +58,7 @@ public class MainWindow : Window, IDisposable
         if (ImGui.Button("BuildFight"))
         {
             Plugin.Log.Information("BuildFight Pressed");
-            partyInfo.Build();
+            nexus.partyInfo.Build();
         }
 
         ImGui.Spacing();
@@ -132,20 +123,20 @@ public class MainWindow : Window, IDisposable
 
                 ImGui.Text($"Local time: {DateTime.Now:T}");
 
-                ImGui.Text($"InCombat: {inCombatWatcher.inCombatApp}");
+                ImGui.Text($"InCombat: {nexus.inCombatWatcher.inCombatApp}");
                 
 
-                ImGui.Text($"Local Player HP: {healthWatcher.currentHealth}");
-                ImGui.Text($"Fight Time: {inCombatWatcher.fightElapsedTime}");
+                ImGui.Text($"Local Player HP: {nexus.healthWatcher.currentHealth}");
+                ImGui.Text($"Fight Time: {nexus.inCombatWatcher.fightElapsedTime}");
 
-                foreach(Player player in partyInfo.Get())
+                foreach(Player player in nexus.partyInfo.Get())
                 {
                     ImGui.Text(player.PrintPlayerInfo());
                 }
 
                 ImGui.Text("Tanks: ");
                 ImGui.SameLine();
-                foreach(var player in playerPicker.Pick("AllTanks")){
+                foreach(var player in nexus.playerPicker.Pick("AllTanks")){
                     if(player == null) return;
                     ImGui.Text(player.Name);
                     ImGui.SameLine();
